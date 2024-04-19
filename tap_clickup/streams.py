@@ -47,11 +47,12 @@ class TimeEntries(ClickUpStream):
         """Return a dictionary of values to be used in URL parameterization."""
         params = super().get_url_params(context, next_page_token)
 
-        if "time_entry_start_date" in self.config:
-            # Formatted in ISO 8601, it must now be converted to milliseconds
-            start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
-            # Convert the datetime object to milliseconds
-            params["start_date"] = int(start_date.timestamp() * 1000)
+        # if "time_entry_start_date" in self.config:
+        # Formatted in ISO 8601, it must now be converted to milliseconds
+        # start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
+        new_start_date: datetime = self.get_starting_timestamp(context)
+        # Convert the datetime object to milliseconds
+        params["start_date"] = int(new_start_date.timestamp() * 1000)
         if "time_entry_assignees" in self.config:
             params["assignee"] = self.config["time_entry_assignees"]
         else:
