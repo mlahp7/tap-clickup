@@ -57,6 +57,7 @@ class TimeEntries(ClickUpStream):
             print("No start date or state date fallback to config date")
             start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
             params["start_date"] = int(start_date.timestamp() * 1000)
+            print("Start date: ", params["start_date"])
         # else:
         # Because the state date is already in milliseconds, we can just use it
         # params["start_date"] = unformatted_state_date
