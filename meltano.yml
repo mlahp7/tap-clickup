@@ -15,10 +15,13 @@ plugins:
       kind: password
     - name: time_entry_assignees
       kind: string
-        #    config:
+    - name: time_entry_start_date
+      kind: string
+      #    config:
     select:
-    - '!shared_hierarchy.*'
-    - '*.*'
+      - teams.*
+      #    - task.*
+      - time_entries.*
   loaders:
   - name: target-jsonl
     variant: andyh1203

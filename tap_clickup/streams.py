@@ -40,7 +40,6 @@ class TimeEntries(ClickUpStream):
     records_jsonpath = "$.data[*]"
     parent_stream_type = TeamsStream
     # TODO not clear why this is needed
-    partitions = None
     def get_url_params(
             self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
@@ -50,10 +49,15 @@ class TimeEntries(ClickUpStream):
         # if "time_entry_start_date" in self.config:
         # Formatted in ISO 8601, it must now be converted to milliseconds
         # start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
-        new_start_date: datetime = self.get_starting_timestamp(context)
-        raise Exception(new_start_date)
+        unformatted_state_date = self.get_starting_replication_key_value(context)
         # Convert the datetime object to milliseconds
-        params["start_date"] = int(new_start_date.timestamp() * 1000)
+        if not unformatted_state_date:
+            print("No start date or state date fallback to config date")
+            start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
+            params["start_date"] = int(start_date.timestamp() * 1000)
+        else:
+            # Because the state date is already in milliseconds, we can just use it
+            params["start_date"] = unformatted_state_date
         if "time_entry_assignees" in self.config:
             params["assignee"] = self.config["time_entry_assignees"]
         else:
