@@ -51,6 +51,7 @@ class TimeEntries(ClickUpStream):
         # Formatted in ISO 8601, it must now be converted to milliseconds
         # start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
         new_start_date: datetime = self.get_starting_timestamp(context)
+        raise Exception(new_start_date)
         # Convert the datetime object to milliseconds
         params["start_date"] = int(new_start_date.timestamp() * 1000)
         if "time_entry_assignees" in self.config:
