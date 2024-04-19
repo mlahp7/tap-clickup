@@ -21,7 +21,8 @@ class TeamsStream(ClickUpStream):
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         """Return a context dictionary for child streams."""
-        user_ids = [str(member.get("user", {}).get("id")) for member in record.get("members", []) if isinstance(member, dict)]
+        user_ids = [str(member.get("user", {}).get("id")) for member in record.get("members", []) if
+                    isinstance(member, dict)]
 
         return {
             "team_id": record["id"],
@@ -39,6 +40,7 @@ class TimeEntries(ClickUpStream):
     schema_filepath = SCHEMAS_DIR / "time_entries.json"
     records_jsonpath = "$.data[*]"
     parent_stream_type = TeamsStream
+
     # TODO not clear why this is needed
     def get_url_params(
             self, context: Optional[dict], next_page_token: Optional[Any]
@@ -55,9 +57,9 @@ class TimeEntries(ClickUpStream):
             print("No start date or state date fallback to config date")
             start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
             params["start_date"] = int(start_date.timestamp() * 1000)
-        else:
-            # Because the state date is already in milliseconds, we can just use it
-            params["start_date"] = unformatted_state_date
+        # else:
+        # Because the state date is already in milliseconds, we can just use it
+        # params["start_date"] = unformatted_state_date
         if "time_entry_assignees" in self.config:
             params["assignee"] = self.config["time_entry_assignees"]
         else:
@@ -265,7 +267,7 @@ class TasksStream(ClickUpStream):
         return [{"archived": "true"}, {"archived": "false"}]
 
     def get_url_params(
-        self, context: Optional[dict], next_page_token: Optional[Any]
+            self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params = super().get_url_params(context, next_page_token)
@@ -278,7 +280,7 @@ class TasksStream(ClickUpStream):
         return params
 
     def get_next_page_token(
-        self, response: requests.Response, previous_token: Optional[Any]
+            self, response: requests.Response, previous_token: Optional[Any]
     ) -> Optional[Any]:
         """Return the page number, Null if we should stop going to the next page."""
         newtoken = None
