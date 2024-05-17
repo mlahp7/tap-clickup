@@ -19,9 +19,8 @@ plugins:
       kind: string
       #    config:
     select:
-      - teams.*
-      #    - task.*
-      - time_entries.*
+      - '!shared_hierarchy.*'
+      - '*.*'
   loaders:
   - name: target-jsonl
     variant: andyh1203
