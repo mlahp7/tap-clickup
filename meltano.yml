@@ -19,8 +19,8 @@ plugins:
       kind: string
       #    config:
     select:
-      - '!shared_hierarchy.*'
-      - '*.*'
+    - '!shared_hierarchy.*'
+    - '*.*'
   loaders:
   - name: target-jsonl
     variant: andyh1203
