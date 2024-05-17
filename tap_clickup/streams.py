@@ -50,13 +50,8 @@ class TimeEntries(ClickUpStream):
         params = super().get_url_params(context, next_page_token)
 
         unformatted_state_date = self.get_starting_replication_key_value(context)
-        # Convert the datetime object to milliseconds
-        if not unformatted_state_date:
-            start_date = datetime.strptime(self.config["time_entry_start_date"], "%Y-%m-%dT%H:%M:%SZ")
-            params["start_date"] = int(start_date.timestamp() * 1000)
-        else:
-            # Because the state date is already in milliseconds, we can just use it
-            params["start_date"] = unformatted_state_date
+        # Because the state date is already in milliseconds, we can just use it
+        params["start_date"] = unformatted_state_date
         if "time_entry_assignees" in self.config:
             params["assignee"] = self.config["time_entry_assignees"]
         else:
