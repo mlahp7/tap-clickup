@@ -17,7 +17,7 @@ plugins:
       kind: string
     - name: time_entry_start_date
       kind: string
-      #    config:
+        #    config:
     select:
     - '!shared_hierarchy.*'
     - '*.*'

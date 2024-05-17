@@ -264,7 +264,7 @@ class TasksStream(ClickUpStream):
         return [{"archived": "true"}, {"archived": "false"}]
 
     def get_url_params(
-            self, context: Optional[dict], next_page_token: Optional[Any]
+        self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params = super().get_url_params(context, next_page_token)
@@ -277,7 +277,7 @@ class TasksStream(ClickUpStream):
         return params
 
     def get_next_page_token(
-            self, response: requests.Response, previous_token: Optional[Any]
+        self, response: requests.Response, previous_token: Optional[Any]
     ) -> Optional[Any]:
         """Return the page number, Null if we should stop going to the next page."""
         newtoken = None
